@@ -1,5 +1,7 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using FullStack.API.Services.Interfaces;
+using Microsoft.AspNetCore.Mvc;
 using System.Net;
+using System.Threading.Tasks;
 
 namespace FullStack.API.Controllers
 {
@@ -7,11 +9,19 @@ namespace FullStack.API.Controllers
     [ApiController]
     public class WeatherController : Controller
     {
+        private readonly IWeatherService _weatherService;
+
+        public WeatherController(IWeatherService weatherService)
+        {
+            _weatherService = weatherService;
+        }
+
         [HttpGet]
         [ProducesResponseType((int)HttpStatusCode.OK)]
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
-            return Ok();
+            var weather = await _weatherService.GetWeatherDataAsync();
+            return Ok(weather);
         }
     }
 }

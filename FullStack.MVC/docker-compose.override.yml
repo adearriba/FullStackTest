@@ -24,6 +24,8 @@ services:
       - ASPNETCORE_ENVIRONMENT=Development
       - ASPNETCORE_URLS=https://+:443;http://+:80
       - ConnectionString=${FULLSTACK_DB:-Server=sqldata;Database=FullStack.Db;User Id=sa;Password=Pass@word}
+      - WeatherCity=Madrid
+      - WeatherApiKey=cefcfdc0f8633367e91eb557e578ca08
     ports:
       - "5001:80"
       - "4431:443"

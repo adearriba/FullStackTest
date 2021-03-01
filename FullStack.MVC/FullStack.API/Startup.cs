@@ -1,6 +1,8 @@
 using FullStack.API.Data;
 using FullStack.API.Repositories;
 using FullStack.API.Repositories.Interfaces;
+using FullStack.API.Services;
+using FullStack.API.Services.Interfaces;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -41,6 +43,7 @@ namespace FullStack.API
 
             services.AddTransient<IBrandRepository, BrandRepository>();
             services.AddTransient<IMobileRepository, MobileRepository>();
+            services.AddHttpClient<IWeatherService, WeatherService>();
 
             services.AddControllers().AddNewtonsoftJson(options =>
                 options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore
