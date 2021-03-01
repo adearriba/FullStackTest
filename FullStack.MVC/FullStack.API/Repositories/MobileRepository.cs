@@ -22,12 +22,17 @@ namespace FullStack.API.Repositories
         {
             var addedItem = _dbContext.Mobiles.Add(item);
             await _dbContext.SaveChangesAsync();
+            
+            addedItem.Reference(m => m.Brand).Load();
+
             return addedItem.Entity;
         }
 
         public List<Mobile> GetAll()
         {
-            return _dbContext.Mobiles.ToList<Mobile>();
+            return _dbContext.Mobiles
+                .Include(m => m.Brand)
+                .ToList();
         }
 
         public async Task<Mobile> GetAsync(int id)
