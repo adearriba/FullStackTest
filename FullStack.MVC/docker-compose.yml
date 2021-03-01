@@ -1,0 +1,21 @@
+version: '3.4'
+
+services:
+  sqldata:
+    image: mcr.microsoft.com/mssql/server:2019-latest
+
+  fullstack.mvc:
+    image: ${DOCKER_REGISTRY-}fullstackmvc
+    build:
+      context: .
+      dockerfile: FullStack.MVC/Dockerfile
+    depends_on:
+      - sqldata
+
+  fullstack.api:
+    image: ${DOCKER_REGISTRY-}fullstackapi
+    build:
+      context: .
+      dockerfile: FullStack.API/Dockerfile
+    depends_on:
+      - sqldata
