@@ -13,6 +13,7 @@ namespace FullStack.Models
         [Display(Name = "Marca")]
         public string Name { get; set; }
 
+        [Display(Name = "Móviles")]
         public List<Mobile> Mobiles { get; set; } = new List<Mobile>();
     }
 }
