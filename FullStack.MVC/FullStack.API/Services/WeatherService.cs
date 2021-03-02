@@ -21,7 +21,7 @@ namespace FullStack.API.Services
             var city = Environment.GetEnvironmentVariable("WeatherCity");
             var apiKey = Environment.GetEnvironmentVariable("WeatherApiKey");
 
-            var apiUri = $"http://api.openweathermap.org/data/2.5/weather?q={city}&appid={apiKey}&units=metric";
+            var apiUri = $"http://api.openweathermap.org/data/2.5/weather?q={city}&appid={apiKey}&units=metric&lang=es";
             var responseString = await _httpClient.GetStringAsync(apiUri);
 
             JToken jsonObj = JObject.Parse(responseString);
@@ -37,6 +37,7 @@ namespace FullStack.API.Services
                 Sunrise = (int)jsonObj["sys"]["sunrise"],
                 Sunset = (int)jsonObj["sys"]["sunset"],
                 Temperature = (double)jsonObj["main"]["temp"],
+                Icon = (string)jsonObj["weather"][0]["icon"],
                 Wind = new Wind
                 {
                     Degrees = (int)jsonObj["wind"]["deg"],

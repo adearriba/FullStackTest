@@ -11,6 +11,7 @@
         public double Humidity { get; set; }
         public int Sunrise { get; set; }
         public int Sunset { get; set; }
+        public string Icon { get; set; }
 
         public Wind Wind { get; set; }
     }
