@@ -10,12 +10,14 @@ using Microsoft.AspNetCore.Diagnostics.HealthChecks;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
+using Polly;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -98,8 +100,17 @@ namespace FullStack.API
         {
             using (var scope = app.ApplicationServices.CreateScope())
             {
-                var dbContext = scope.ServiceProvider.GetService<APIDbContext>();
-                dbContext.Database.Migrate();
+                var retryPolicy = Policy
+                    .Handle<SqlException>()
+                    .WaitAndRetry(3,
+                        retryAttempt => TimeSpan.FromSeconds(Math.Pow(2, retryAttempt))
+                    );
+
+                retryPolicy.Execute( () =>
+                {
+                    var dbContext = scope.ServiceProvider.GetService<APIDbContext>();
+                    dbContext.Database.Migrate();
+                });
             }
         }
     }
