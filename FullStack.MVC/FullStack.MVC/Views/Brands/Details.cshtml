@@ -3,10 +3,30 @@
 }
 @model FullStack.Models.Brand
 
-<p>Nombre: @Model.Name</p>
-<ul>
-    @foreach (var mobile in Model.Mobiles)
-    {
-        <li>@mobile.Model</li>
-    }
-</ul>
+<h1>@Model.Name</h1>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Mobiles)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var mobile in Model.Mobiles)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => mobile.Model)
+                </td>
+                <td>
+                    <a asp-controller="Mobile" asp-action="Edit" asp-route-id="@mobile.Id"><i class="fas fa-edit"></i> Editar</a> |
+                    <a asp-controller="Mobile" asp-action="Details" asp-route-id="@mobile.Id"><i class="fas fa-info-circle"></i> Detalles</a> |
+                    <a asp-controller="Mobile" asp-action="Delete" asp-route-id="@mobile.Id"><i class="fas fa-trash-alt"></i> Eliminar</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
