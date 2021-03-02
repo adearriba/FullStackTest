@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using System.Net;
 using System.Threading.Tasks;
 
-namespace FullStack.API.Controllers
+namespace FullStack.API.Controllers.v1
 {
     [Route("api/v1/[controller]")]
     [ApiController]

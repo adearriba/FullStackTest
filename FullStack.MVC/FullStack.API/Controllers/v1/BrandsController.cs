@@ -1,30 +1,31 @@
 ﻿using FullStack.API.Model;
+using FullStack.API.Repositories;
 using FullStack.API.Repositories.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
 using System.Net;
 using System.Threading.Tasks;
 
-namespace FullStack.API.Controllers
+namespace FullStack.API.Controllers.v1
 {
     [Route("api/v1/[controller]")]
     [ApiController]
-    public class MobileController : Controller
+    public class BrandsController : ControllerBase
     {
-        private readonly IMobileRepository _repository;
+        private readonly IBrandRepository _repository;
 
-        public MobileController(IMobileRepository repository)
+        public BrandsController(IBrandRepository repository)
         {
             _repository = repository;
         }
 
         [HttpGet]
-        [ProducesResponseType(typeof(List<Mobile>), (int)HttpStatusCode.OK)]
+        [ProducesResponseType(typeof(List<Brand>), (int)HttpStatusCode.OK)]
         [ProducesResponseType((int)HttpStatusCode.NotFound)]
         public IActionResult GetAll()
         {
-            var mobiles = _repository.GetAll();
-            return mobiles.Count > 0 ? Ok(mobiles) : NotFound();
+            var brands = _repository.GetAll();
+            return brands.Count > 0 ? Ok(brands) : NotFound();
         }
 
         [HttpGet("{id:int}")]
@@ -32,23 +33,23 @@ namespace FullStack.API.Controllers
         [ProducesResponseType((int)HttpStatusCode.NotFound)]
         public async Task<IActionResult> GetById(int id)
         {
-            var mobile = await _repository.GetAsync(id);
-            return mobile != null ? Ok(mobile) : NotFound();
+            var brand = await _repository.GetAsync(id);
+            return brand != null ? Ok(brand) : NotFound();
         }
 
         [HttpPost]
         [ProducesResponseType(typeof(Brand), (int)HttpStatusCode.OK)]
-        public async Task<IActionResult> Add(Mobile mobile)
+        public async Task<IActionResult> Add(Brand brand)
         {
-            var result = await _repository.AddAsync(mobile);
+            var result = await _repository.AddAsync(brand);
             return Ok(result);
         }
 
         [HttpPut]
         [ProducesResponseType(typeof(Brand), (int)HttpStatusCode.OK)]
-        public IActionResult Update(Mobile mobile)
+        public IActionResult Update(Brand brand)
         {
-            _repository.Update(mobile);
+            _repository.Update(brand);
             return Ok();
         }
     }
