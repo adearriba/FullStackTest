@@ -37,7 +37,10 @@ namespace FullStack.API.Repositories
 
         public async Task<Mobile> GetAsync(int id)
         {
-            var mobile = await _dbContext.Mobiles.FirstOrDefaultAsync(brand => brand.Id == id);
+            var mobile = await _dbContext.Mobiles
+                .Include(m => m.Brand)
+                .FirstOrDefaultAsync(brand => brand.Id == id);
+
             return mobile;
         }
 
