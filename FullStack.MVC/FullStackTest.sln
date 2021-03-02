@@ -9,6 +9,8 @@ Project("{E53339B2-1760-4266-BCC7-CA923CBCF16C}") = "docker-compose", "docker-co
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FullStack.API", "FullStack.API\FullStack.API.csproj", "{B28C924B-3979-49C0-81ED-38D4C1388203}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FullStack.Models", "FullStack.Models\FullStack.Models.csproj", "{B56E10F7-9BC0-4FD6-88CE-92A487BCCBF2}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -27,6 +29,10 @@ Global
 		{B28C924B-3979-49C0-81ED-38D4C1388203}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B28C924B-3979-49C0-81ED-38D4C1388203}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B28C924B-3979-49C0-81ED-38D4C1388203}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B56E10F7-9BC0-4FD6-88CE-92A487BCCBF2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B56E10F7-9BC0-4FD6-88CE-92A487BCCBF2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B56E10F7-9BC0-4FD6-88CE-92A487BCCBF2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B56E10F7-9BC0-4FD6-88CE-92A487BCCBF2}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

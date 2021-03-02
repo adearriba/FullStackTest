@@ -1,0 +1,12 @@
+﻿@{
+    ViewData["Title"] = "Marcas";
+}
+@model FullStack.Models.Brand
+
+<p>Nombre: @Model.Name</p>
+<ul>
+    @foreach (var mobile in Model.Mobiles)
+    {
+        <li>@mobile.Model</li>
+    }
+</ul>
