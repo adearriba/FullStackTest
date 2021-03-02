@@ -8,10 +8,13 @@ namespace FullStack.Models
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }
+
+        [Display(Name = "Modelo")]
         public string Model { get; set; }
 
-
         public int BrandId { get; set; }
+
+        [Display(Name = "Marca")]
         public Brand Brand { get; set; }
     }
 }

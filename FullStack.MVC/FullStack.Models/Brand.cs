@@ -9,6 +9,8 @@ namespace FullStack.Models
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }
+
+        [Display(Name = "Marca")]
         public string Name { get; set; }
 
         public List<Mobile> Mobiles { get; set; } = new List<Mobile>();
