@@ -21,7 +21,7 @@ namespace FullStack.MVC.Services
         public async Task<T> AddAsync(T item)
         {
             var json = JsonConvert.SerializeObject(item);
-            var content = new StringContent(json, Encoding.UTF8, "application / json");
+            var content = new StringContent(json, Encoding.UTF8, "application/json");
             var response = await _httpClient.PostAsync(_apiUri, content);
 
             var responseJson = await response.Content.ReadAsStringAsync();
@@ -53,7 +53,7 @@ namespace FullStack.MVC.Services
         public async Task UpdateAsync(T item)
         {
             var json = JsonConvert.SerializeObject(item);
-            var content = new StringContent(json, Encoding.UTF8, "application / json");
+            var content = new StringContent(json, Encoding.UTF8, "application/json");
             var response = await _httpClient.PutAsync($"{_apiUri}", content);
             var responseJson = await response.Content.ReadAsStringAsync();
         }
