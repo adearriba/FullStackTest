@@ -1,4 +1,4 @@
-﻿using FullStack.API.Model;
+﻿using FullStack.Models;
 
 namespace FullStack.API.Repositories.Interfaces
 {

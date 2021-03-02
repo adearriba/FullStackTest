@@ -1,10 +1,7 @@
-﻿using FullStack.API.Model;
-using FullStack.API.Services.Interfaces;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Converters;
+﻿using FullStack.API.Services.Interfaces;
+using FullStack.Models;
 using Newtonsoft.Json.Linq;
 using System;
-using System.Dynamic;
 using System.Net.Http;
 using System.Threading.Tasks;
 

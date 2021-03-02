@@ -1,13 +1,17 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace FullStack.API.Model
+namespace FullStack.Models
 {
-    public class Brand
+    public class Mobile
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }
-        public string Name { get; set; }
+        public string Model { get; set; }
+
+
+        public int BrandId { get; set; }
+        public Brand Brand { get; set; }
     }
 }

@@ -1,4 +1,4 @@
-﻿using FullStack.API.Model;
+﻿using FullStack.Models;
 using Microsoft.EntityFrameworkCore;
 
 namespace FullStack.API.Data

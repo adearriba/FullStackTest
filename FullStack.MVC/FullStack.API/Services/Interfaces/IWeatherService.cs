@@ -1,7 +1,4 @@
-﻿using FullStack.API.Model;
-using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using FullStack.Models;
 using System.Threading.Tasks;
 
 namespace FullStack.API.Services.Interfaces
