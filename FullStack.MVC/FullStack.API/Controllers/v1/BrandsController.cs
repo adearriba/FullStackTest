@@ -1,6 +1,5 @@
-﻿using FullStack.API.Model;
-using FullStack.API.Repositories;
-using FullStack.API.Repositories.Interfaces;
+﻿using FullStack.API.Repositories.Interfaces;
+using FullStack.Models;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
 using System.Net;
@@ -50,6 +49,15 @@ namespace FullStack.API.Controllers.v1
         public IActionResult Update(Brand brand)
         {
             _repository.Update(brand);
+            return Ok();
+        }
+
+        [HttpDelete("{id:int}")]
+        [ProducesResponseType((int)HttpStatusCode.OK)]
+        public async Task<IActionResult> Remove(int id)
+        {
+            var brand = await _repository.GetAsync(id);
+            _repository.Remove(brand);
             return Ok();
         }
     }

@@ -1,5 +1,5 @@
-﻿using FullStack.API.Model;
-using FullStack.API.Repositories.Interfaces;
+﻿using FullStack.API.Repositories.Interfaces;
+using FullStack.Models;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
 using System.Net;
@@ -28,7 +28,7 @@ namespace FullStack.API.Controllers.v1
         }
 
         [HttpGet("{id:int}")]
-        [ProducesResponseType(typeof(Brand), (int)HttpStatusCode.OK)]
+        [ProducesResponseType(typeof(Mobile), (int)HttpStatusCode.OK)]
         [ProducesResponseType((int)HttpStatusCode.NotFound)]
         public async Task<IActionResult> GetById(int id)
         {
@@ -37,7 +37,7 @@ namespace FullStack.API.Controllers.v1
         }
 
         [HttpPost]
-        [ProducesResponseType(typeof(Brand), (int)HttpStatusCode.OK)]
+        [ProducesResponseType(typeof(Mobile), (int)HttpStatusCode.OK)]
         public async Task<IActionResult> Add(Mobile mobile)
         {
             var result = await _repository.AddAsync(mobile);
@@ -45,10 +45,19 @@ namespace FullStack.API.Controllers.v1
         }
 
         [HttpPut]
-        [ProducesResponseType(typeof(Brand), (int)HttpStatusCode.OK)]
+        [ProducesResponseType(typeof(Mobile), (int)HttpStatusCode.OK)]
         public IActionResult Update(Mobile mobile)
         {
             _repository.Update(mobile);
+            return Ok();
+        }
+
+        [HttpDelete("{id:int}")]
+        [ProducesResponseType((int)HttpStatusCode.OK)]
+        public async Task<IActionResult> Remove(int id)
+        {
+            var mobile = await _repository.GetAsync(id);
+            _repository.Remove(mobile);
             return Ok();
         }
     }

@@ -1,6 +1,6 @@
 ﻿using FullStack.API.Data;
-using FullStack.API.Model;
 using FullStack.API.Repositories.Interfaces;
+using FullStack.Models;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -34,6 +34,12 @@ namespace FullStack.API.Repositories
         {
             var brand = await _dbContext.Brands.FirstOrDefaultAsync(brand => brand.Id == id);
             return brand;
+        }
+
+        public void Remove(Brand item)
+        {
+            _dbContext.Brands.Remove(item);
+            _dbContext.SaveChanges();
         }
 
         public void Update(Brand item)

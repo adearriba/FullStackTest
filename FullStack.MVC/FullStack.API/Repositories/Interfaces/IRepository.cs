@@ -14,5 +14,6 @@ namespace FullStack.API.Repositories.Interfaces
 
         void Update(T item);
 
+        void Remove(T item);
     }
 }
