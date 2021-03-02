@@ -1,13 +1,17 @@
 using FullStack.MVC.Data;
 using FullStack.MVC.Data.Models;
 using FullStack.MVC.Extensions;
+using FullStack.MVC.Services;
+using FullStack.MVC.Services.Interfaces;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Polly;
 using System;
 using System.Reflection;
 
@@ -42,6 +46,10 @@ namespace FullStack.MVC
                 .AddRoleManager<RoleManager<IdentityRole>>()
                 .AddEntityFrameworkStores<ApplicationDbContext>();
 
+            services.AddHttpClient<IWeatherService, WeatherService>();
+            services.AddHttpClient<IBrandService, BrandService>();
+            services.AddHttpClient<IMobileService, MobileService>();
+
             services.AddControllersWithViews();
         }
 
@@ -74,7 +82,16 @@ namespace FullStack.MVC
                 endpoints.MapRazorPages();
             });
 
-            app.SeedDb().GetAwaiter().GetResult();
+            var retryPolicy = Policy
+                    .Handle<SqlException>()
+                    .WaitAndRetry(3,
+                        retryAttempt => TimeSpan.FromSeconds(Math.Pow(2, retryAttempt))
+                    );
+
+            retryPolicy.Execute(() =>
+            {
+                app.SeedDb().GetAwaiter().GetResult();
+            });
         }
     }
 }
