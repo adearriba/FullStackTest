@@ -18,7 +18,7 @@ namespace FullStack.MVC.Services
 
         public async Task<WeatherData> GetWeatherDataAsync()
         {
-            var responseString = await _httpClient.GetStringAsync(_apiUri);
+            var responseString = await _httpClient.GetStringAsync($"{_apiUri}/Weather");
             var data = JsonConvert.DeserializeObject<WeatherData>(responseString);
 
             return data;
