@@ -19,3 +19,10 @@ services:
       dockerfile: FullStack.API/Dockerfile
     depends_on:
       - sqldata
+
+  fullstack.webstatus:
+    image: ${DOCKER_REGISTRY-}fullstackwebstatus
+    build:
+      context: .
+      dockerfile: FullStack.WebStatus/Dockerfile
+

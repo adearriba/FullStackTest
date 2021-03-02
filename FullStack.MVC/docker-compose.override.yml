@@ -15,6 +15,7 @@ services:
       - ASPNETCORE_ENVIRONMENT=Development
       - ASPNETCORE_URLS=https://+:443;http://+:80
       - ConnectionString=${FULLSTACK_DB:-Server=sqldata;Database=FullStack.Db;User Id=sa;Password=Pass@word}
+      - ApiUri=http://fullstack.api:80/api/v1
     ports:
       - "5002:80"
       - "4432:443"
@@ -26,11 +27,20 @@ services:
       - ConnectionString=${FULLSTACK_DB:-Server=sqldata;Database=FullStack.Db;User Id=sa;Password=Pass@word}
       - WeatherCity=Madrid
       - WeatherApiKey=cefcfdc0f8633367e91eb557e578ca08
+
+  fullstack.webstatus:
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ASPNETCORE_URLS=http://+:80
+      - HealthChecksUI__HealthChecks__0__Name=WebMVC HTTP Check
+      - HealthChecksUI__HealthChecks__0__Uri=http://fullstack.mvc:80/hc
+      - HealthChecksUI__HealthChecks__1__Name=WebAPI HTTP Check
+      - HealthChecksUI__HealthChecks__1__Uri=http://fullstack.api:80/hc
     ports:
-      - "5001:80"
-      - "4431:443"
+      - "5003:80"
 
 volumes:
   fullstack-sqldata:
     external: false
+
 
