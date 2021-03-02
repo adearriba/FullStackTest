@@ -1,4 +1,5 @@
 ﻿using FullStack.Models;
+using FullStack.MVC.Models.Mobile;
 using FullStack.MVC.Services.Interfaces;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
@@ -32,9 +33,11 @@ namespace FullStack.MVC.Controllers
         }
 
         // GET: MobileController/Create
-        public ActionResult Create()
+        public async Task<ActionResult> Create([FromServices] IBrandService brandService)
         {
-            return View();
+            CreateMobileViewModel vm = new CreateMobileViewModel();
+            vm.Brands = await brandService.GetAllAsync();
+            return View(vm);
         }
 
         // POST: MobileController/Create
@@ -54,10 +57,15 @@ namespace FullStack.MVC.Controllers
         }
 
         // GET: MobileController/Edit/5
-        public async Task<ActionResult> Edit(int id)
+        public async Task<ActionResult> Edit([FromServices] IBrandService brandService, int id)
         {
             var mobile = await _mobileService.GetByIdAsync(id);
-            return View(mobile);
+
+            CreateMobileViewModel vm = new CreateMobileViewModel();
+            vm.Brands = await brandService.GetAllAsync();
+            vm.Model = mobile.Model;
+
+            return View(vm);
         }
 
         // POST: MobileController/Edit/5
@@ -67,6 +75,7 @@ namespace FullStack.MVC.Controllers
         {
             try
             {
+                mobileInput.Id = id;
                 await _mobileService.UpdateAsync(mobileInput);
                 return RedirectToAction(nameof(Index));
             }
