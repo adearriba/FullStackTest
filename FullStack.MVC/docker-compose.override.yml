@@ -32,7 +32,7 @@ services:
       - ASPNETCORE_Kestrel__Certificates__Default__Password=password
       - ASPNETCORE_Kestrel__Certificates__Default__Path=/app/docker.pfx
       - ConnectionString=${FULLSTACK_DB:-Server=sqldata-mvc;Database=FullStack.Db;User Id=sa;Password=Pass@word}
-      - DBConnectionRetries=5
+      - DBConnectionRetries=15
       - ApiUri=http://fullstack.api:80/api/v1
     ports:
       - "5002:80"
@@ -46,7 +46,7 @@ services:
       - ASPNETCORE_Kestrel__Certificates__Default__Path=/app/docker.pfx
       - ConnectionString=${FULLSTACK_DB:-Server=sqldata-api;Database=FullStack.Db;User Id=sa;Password=Pass@word}
       - RedisConnectionsString=redis
-      - DBConnectionRetries=5
+      - DBConnectionRetries=15
       - WeatherCity=Madrid
       - WeatherApiKey=cefcfdc0f8633367e91eb557e578ca08
     ports:
