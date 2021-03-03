@@ -37,6 +37,12 @@ Adicionalmente hay 3 contenedores, 2 corriendo ``mssql/server:2019-latest`` y 1 
 |sqldata-mvc  |Contiene los datos requeridos por Identity para manejo de usuarios |
 |redis  |Cache para servicios terceros con restricciones de consultas |
 
+Se eligieron instancias de SQL por la naturaleza de las entidades que están relacionadas 1-Muchos. 
+
+Esto significa que desde una marca puedo consultar todos los móviles y de un móvil puedo consultar su marca. Las soluciones no relacionales para estos problemas, sobretodo en un proyecto tan pequeño, no conllevan un beneficio.
+
+En un problema diferente donde la estructura puda vivir en documentos completos, fáciles de consultar, las BD no-SQL serían la mejor opción. Por ejemplo un carritos de compras o una libreta de direcciones.
+
 ## Correr la solución
 Para correr la solución se requiere tener Docker instalado. Una vez teniendo Docker instalado, se deben ejecutar los siguientes comandos desde la carpeta donde se encuentra el archivo ``docker-compose.yml``:
 
@@ -112,7 +118,5 @@ Para mantener una estructura homogénea de trabajo, desacoplar el código y tene
 ## Mejoras deseables
 Por el corto tiempo, quedaron algunos puntos pendientes deseables:
 
- - Utilizar MongoDB para el servicio que almacena Marcas y Móviles. Dado que estaba usando MSSQL con Identity, por practicidad y rapidez quise mantener MSSQL en ambos servicios. 
-	 - Al tener BD independientes y utilizar interfaces de repositorios, cambiar uno por otro no es una tarea muy compleja, solamente habría que implementar la interfaz de repositorio y cambiar la conexión e imagen en docker-compose. 
  - Usar alguna librería para FrontEnd como Vue, Angular o React. Aunque las conozco y las he usado en proyectos pequeños, la velocidad para montar todo, además de incorporar Identity hubiera sido más lenta. Por lo tanto, decidí optimizar tiempo utilizando las bondades de ASPNET CORE MVC + Identity.
  - Separar el servicio de Identity del proyecto MVC y llevarlo a un servicio propio para poder utilizarlo en diferentes Frontends independientes de la tecnología.
