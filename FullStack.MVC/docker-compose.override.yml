@@ -13,8 +13,11 @@ services:
   fullstack.mvc:
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
-      - ASPNETCORE_URLS=https://+:443;http://+:80
+      - ASPNETCORE_URLS=https://+443;http://+:80
+      - ASPNETCORE_Kestrel__Certificates__Default__Password=password
+      - ASPNETCORE_Kestrel__Certificates__Default__Path=/app/docker.pfx
       - ConnectionString=${FULLSTACK_DB:-Server=sqldata;Database=FullStack.Db;User Id=sa;Password=Pass@word}
+      - DBConnectionRetries=5
       - ApiUri=http://fullstack.api:80/api/v1
     ports:
       - "5002:80"
@@ -23,19 +26,27 @@ services:
   fullstack.api:
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
-      - ASPNETCORE_URLS=https://+:443;http://+:80
+      - ASPNETCORE_URLS=http://+:80
+      - ASPNETCORE_Kestrel__Certificates__Default__Password=password
+      - ASPNETCORE_Kestrel__Certificates__Default__Path=/app/docker.pfx
       - ConnectionString=${FULLSTACK_DB:-Server=sqldata;Database=FullStack.Db;User Id=sa;Password=Pass@word}
+      - DBConnectionRetries=5
       - WeatherCity=Madrid
       - WeatherApiKey=cefcfdc0f8633367e91eb557e578ca08
+    ports:
+      - "5001:80"
 
   fullstack.webstatus:
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
       - ASPNETCORE_URLS=http://+:80
+      - ASPNETCORE_Kestrel__Certificates__Default__Password=password
+      - ASPNETCORE_Kestrel__Certificates__Default__Path=/app/docker.pfx
       - HealthChecksUI__HealthChecks__0__Name=WebMVC HTTP Check
       - HealthChecksUI__HealthChecks__0__Uri=http://fullstack.mvc:80/hc
       - HealthChecksUI__HealthChecks__1__Name=WebAPI HTTP Check
       - HealthChecksUI__HealthChecks__1__Uri=http://fullstack.api:80/hc
+      - HealthChecksRefreshTime=15
     ports:
       - "5003:80"
 

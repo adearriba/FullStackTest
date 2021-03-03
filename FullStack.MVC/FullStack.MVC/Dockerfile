@@ -18,5 +18,6 @@ RUN dotnet publish "FullStack.MVC.csproj" -c Release -o /app/publish
 
 FROM base AS final
 WORKDIR /app
+COPY "docker.pfx" .
 COPY --from=publish /app/publish .
 ENTRYPOINT ["dotnet", "FullStack.MVC.dll"]
