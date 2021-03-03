@@ -3,7 +3,9 @@ using FullStack.MVC.Data.Models;
 using FullStack.MVC.Extensions;
 using FullStack.MVC.Services;
 using FullStack.MVC.Services.Interfaces;
+using HealthChecks.UI.Client;
 using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Diagnostics.HealthChecks;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Data.SqlClient;
@@ -34,10 +36,15 @@ namespace FullStack.MVC
                 sqlServerOptionsAction: sqlOptions =>
                 {
                     sqlOptions.MigrationsAssembly(typeof(Startup).GetTypeInfo().Assembly.GetName().Name);
-                    sqlOptions.EnableRetryOnFailure(maxRetryCount: 15, maxRetryDelay: TimeSpan.FromSeconds(30), errorNumbersToAdd: null);
+                    sqlOptions.EnableRetryOnFailure(
+                        maxRetryCount: Int32.Parse(Configuration["DBConnectionRetries"]), 
+                        maxRetryDelay: TimeSpan.FromSeconds(30), 
+                        errorNumbersToAdd: null);
                 }));
 
             services.AddDatabaseDeveloperPageExceptionFilter();
+
+            services.AddHealthChecks(Configuration);
 
             services
                 .AddDefaultIdentity<ApplicationUser>()
@@ -66,7 +73,7 @@ namespace FullStack.MVC
                 app.UseExceptionHandler("/Home/Error");
                 app.UseHsts();
             }
-            app.UseHttpsRedirection();
+
             app.UseStaticFiles();
 
             app.UseRouting();
@@ -80,11 +87,21 @@ namespace FullStack.MVC
                     name: "default",
                     pattern: "{controller=Home}/{action=Index}/{id?}");
                 endpoints.MapRazorPages();
+
+                endpoints.MapHealthChecks("/hc", new HealthCheckOptions()
+                {
+                    Predicate = _ => true,
+                    ResponseWriter = UIResponseWriter.WriteHealthCheckUIResponse
+                });
+                endpoints.MapHealthChecks("/liveness", new HealthCheckOptions
+                {
+                    Predicate = r => r.Name.Contains("self")
+                });
             });
 
             var retryPolicy = Policy
                     .Handle<SqlException>()
-                    .WaitAndRetry(3,
+                    .WaitAndRetry(Int32.Parse(Configuration["DBConnectionRetries"]),
                         retryAttempt => TimeSpan.FromSeconds(Math.Pow(2, retryAttempt))
                     );
 

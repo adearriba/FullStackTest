@@ -8,21 +8,15 @@ using HealthChecks.UI.Client;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Diagnostics.HealthChecks;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
 using Polly;
 using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Reflection;
-using System.Threading.Tasks;
 
 namespace FullStack.API
 {
@@ -43,7 +37,10 @@ namespace FullStack.API
                 sqlServerOptionsAction: sqlOptions =>
                 {
                     sqlOptions.MigrationsAssembly(typeof(Startup).GetTypeInfo().Assembly.GetName().Name);
-                    sqlOptions.EnableRetryOnFailure(maxRetryCount: 15, maxRetryDelay: TimeSpan.FromSeconds(30), errorNumbersToAdd: null);
+                    sqlOptions.EnableRetryOnFailure(
+                        maxRetryCount: Int32.Parse(Configuration["DBConnectionRetries"]), 
+                        maxRetryDelay: TimeSpan.FromSeconds(30), 
+                        errorNumbersToAdd: null);
                 }));
 
             services.AddTransient<IBrandRepository, BrandRepository>();
@@ -100,7 +97,7 @@ namespace FullStack.API
             {
                 var retryPolicy = Policy
                     .Handle<SqlException>()
-                    .WaitAndRetry(3,
+                    .WaitAndRetry(Int32.Parse(Configuration["DBConnectionRetries"]),
                         retryAttempt => TimeSpan.FromSeconds(Math.Pow(2, retryAttempt))
                     );
 

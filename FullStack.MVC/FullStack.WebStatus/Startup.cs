@@ -31,7 +31,7 @@ namespace FullStack.WebStatus
             services
                 .AddHealthChecksUI(opt =>
                 {
-                    opt.SetEvaluationTimeInSeconds(10);
+                    opt.SetEvaluationTimeInSeconds(Int32.Parse(Configuration["HealthChecksRefreshTime"]));
                     opt.MaximumHistoryEntriesPerEndpoint(60);
                 })
                 .AddInMemoryStorage();
@@ -45,15 +45,9 @@ namespace FullStack.WebStatus
                 app.UseDeveloperExceptionPage();
             }
 
-            var pathBase = Configuration["PATH_BASE"];
-            if (!string.IsNullOrEmpty(pathBase))
-            {
-                app.UsePathBase(pathBase);
-            }
-
             app.UseHealthChecksUI(config =>
             {
-                config.ResourcesPath = string.IsNullOrEmpty(pathBase) ? "/ui/resources" : $"{pathBase}/ui/resources";
+                config.ResourcesPath = "/ui/resources";
                 config.UIPath = "/hc-ui";
             });
 
