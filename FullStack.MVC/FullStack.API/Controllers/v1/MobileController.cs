@@ -20,11 +20,10 @@ namespace FullStack.API.Controllers.v1
 
         [HttpGet]
         [ProducesResponseType(typeof(List<Mobile>), (int)HttpStatusCode.OK)]
-        [ProducesResponseType((int)HttpStatusCode.NotFound)]
         public IActionResult GetAll()
         {
             var mobiles = _repository.GetAll();
-            return mobiles.Count > 0 ? Ok(mobiles) : NotFound();
+            return Ok(mobiles);
         }
 
         [HttpGet("{id:int}")]

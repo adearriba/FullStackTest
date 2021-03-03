@@ -20,11 +20,10 @@ namespace FullStack.API.Controllers.v1
 
         [HttpGet]
         [ProducesResponseType(typeof(List<Brand>), (int)HttpStatusCode.OK)]
-        [ProducesResponseType((int)HttpStatusCode.NotFound)]
         public IActionResult GetAll()
         {
             var brands = _repository.GetAll();
-            return brands.Count > 0 ? Ok(brands) : NotFound();
+            return Ok(brands);
         }
 
         [HttpGet("{id:int}")]
