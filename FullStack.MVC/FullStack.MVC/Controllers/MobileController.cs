@@ -37,6 +37,12 @@ namespace FullStack.MVC.Controllers
         {
             CreateMobileViewModel vm = new CreateMobileViewModel();
             vm.Brands = await brandService.GetAllAsync();
+
+            if(vm.Brands.Count == 0)
+            {
+                ViewData["error"] = "No existe ninguna marca creada todavía. Por favor crea una marca primero.";
+            }
+
             return View(vm);
         }
 

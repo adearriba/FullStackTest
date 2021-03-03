@@ -4,6 +4,8 @@
     ViewData["Title"] = "Create";
 }
 
+@if(Model.Brands.Count > 0)
+{
 <h1>Crear un nuevo modelo móvil</h1>
 <hr />
 <div class="row">
@@ -33,6 +35,7 @@
 <div>
     <a asp-action="Index">Regresar</a>
 </div>
+}
 
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
