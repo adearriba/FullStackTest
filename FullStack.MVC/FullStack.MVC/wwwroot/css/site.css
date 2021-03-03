@@ -73,5 +73,9 @@ body {
 /* Sticky footer styles
 -------------------------------------------------- */
 .fs-sm {
-    font-size: 0.7rem;
+    font-size: 0.8rem;
+}
+
+.fs-lg {
+    font-size: 2rem;
 }

@@ -1,18 +1,54 @@
 ﻿@model FullStack.Models.WeatherData
 @{
     ViewData["Title"] = "Home Page";
+
+    DateTime GetFromEpoch(int epochSeconds)
+    {
+        DateTime epoch = new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc);
+        return epoch.AddSeconds(epochSeconds).AddHours(1);
+    }
 }
 
-<div class="text-center">
+<div class="text-center mb-5">
     <h1 class="display-4">Bienvenido</h1>
+</div>
 
-    <h1>Madrid</h1>
-    <p>@Model.Description</p>
+<div class="row text-center">
+    <div class="col">
+        <h1>Madrid</h1>
+        <p>@Model.Description</p>
 
-    <div class="d-flex justify-content-center">
-        <img src="http://openweathermap.org/img/wn/@Model.Icon@@2x.png" alt="@Model.Description" />
+        <div>
+            <img src="http://openweathermap.org/img/wn/@Model.Icon@@2x.png" alt="@Model.Description" />
+        </div>
+
+        <h2>@(Math.Round(Model.Temperature))º</h2>
+        <p><small>Min: @(Math.Round(Model.MinTemperature))º Min: @(Math.Round(Model.MaxTemperature))º</small></p>
     </div>
-
-    <h2>@(Math.Round(Model.Temperature))º</h2>
-    <p><small>Min: @(Math.Round(Model.MinTemperature))º Min: @(Math.Round(Model.MaxTemperature))º</small></p>
+    <div class="col">
+        <table class="table table-borderless">
+            <tbody>
+                <tr>
+                    <td>
+                        <p class="fs-sm mb-0">Salida del sol</p>
+                        <p class="fs-lg">@GetFromEpoch(Model.Sunrise).ToString("HH:mm")</p>
+                    </td>
+                    <td>
+                        <p class="fs-sm mb-0">Puesta del sol</p>
+                        <p class="fs-lg">@GetFromEpoch(Model.Sunset).ToString("HH:mm")</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="fs-sm mb-0">Humedad</p>
+                        <p class="fs-lg">@(Model.Humidity)%</p>
+                    </td>
+                    <td>
+                        <p class="fs-sm mb-0">Sensación Térmica</p>
+                        <p class="fs-lg">@(Math.Round(Model.FeelsLike))º</p>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
 </div>
