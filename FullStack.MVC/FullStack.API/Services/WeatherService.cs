@@ -1,5 +1,6 @@
 ﻿using FullStack.API.Services.Interfaces;
 using FullStack.Models;
+using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using System;
 using System.Net.Http;
@@ -10,14 +11,25 @@ namespace FullStack.API.Services
     public class WeatherService : IWeatherService
     {
         private readonly HttpClient _httpClient;
+        private readonly ICacheService _cacheService;
 
-        public WeatherService(HttpClient httpClient)
+        private const string CACHE_KEY = "WeatherCache";
+
+        public WeatherService(HttpClient httpClient, ICacheService cacheService)
         {
             _httpClient = httpClient;
+            _cacheService = cacheService;
         }
 
         public async Task<WeatherData> GetWeatherDataAsync()
         {
+            var cacheData = await _cacheService.GetValueAsync(CACHE_KEY);
+            if (cacheData != null)
+            {
+                var weatherCacheData = JsonConvert.DeserializeObject<WeatherData>(cacheData);
+                return weatherCacheData;
+            }
+
             var city = Environment.GetEnvironmentVariable("WeatherCity");
             var apiKey = Environment.GetEnvironmentVariable("WeatherApiKey");
 
@@ -45,6 +57,7 @@ namespace FullStack.API.Services
                 }
             };
 
+            await _cacheService.SetValueAsync(CACHE_KEY, JsonConvert.SerializeObject(data));
             return data;
         }
     }

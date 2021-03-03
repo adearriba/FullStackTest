@@ -15,6 +15,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
 using Polly;
+using StackExchange.Redis;
 using System;
 using System.Reflection;
 
@@ -46,6 +47,10 @@ namespace FullStack.API
             services.AddTransient<IBrandRepository, BrandRepository>();
             services.AddTransient<IMobileRepository, MobileRepository>();
             services.AddHttpClient<IWeatherService, WeatherService>();
+
+            services.AddSingleton<IConnectionMultiplexer>(sp =>
+                ConnectionMultiplexer.Connect(Configuration["RedisConnectionsString"]));
+            services.AddSingleton<ICacheService, RedisCacheService>();
 
             services.AddControllers().AddNewtonsoftJson(options =>
                 options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore
