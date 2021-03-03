@@ -1,6 +1,9 @@
 version: '3.4'
 
 services:
+  redis:
+    image: bitnami/redis:latest
+
   sqldata-api:
     image: mcr.microsoft.com/mssql/server:2019-latest
 

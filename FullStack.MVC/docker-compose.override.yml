@@ -1,6 +1,12 @@
 version: '3.4'
 
 services:
+  redis:
+    environment:
+      - ALLOW_EMPTY_PASSWORD=yes
+    ports:
+      - "6379:6379"
+
   sqldata-api:
     environment:
       - SA_PASSWORD=Pass@word
@@ -39,6 +45,7 @@ services:
       - ASPNETCORE_Kestrel__Certificates__Default__Password=password
       - ASPNETCORE_Kestrel__Certificates__Default__Path=/app/docker.pfx
       - ConnectionString=${FULLSTACK_DB:-Server=sqldata-api;Database=FullStack.Db;User Id=sa;Password=Pass@word}
+      - RedisConnectionsString=redis
       - DBConnectionRetries=5
       - WeatherCity=Madrid
       - WeatherApiKey=cefcfdc0f8633367e91eb557e578ca08
