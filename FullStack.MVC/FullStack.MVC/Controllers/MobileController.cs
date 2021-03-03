@@ -67,9 +67,18 @@ namespace FullStack.MVC.Controllers
         {
             var mobile = await _mobileService.GetByIdAsync(id);
 
-            CreateMobileViewModel vm = new CreateMobileViewModel();
+            CreateMobileViewModel vm = new CreateMobileViewModel
+            {
+                Model = mobile.Model,
+                BrandId = mobile.BrandId,
+                Description = mobile.Description,
+                BateryDescription = mobile.BateryDescription,
+                CamaraDescripcion = mobile.CamaraDescripcion,
+                ScreenDescription = mobile.ScreenDescription,
+                StorageDescription = mobile.StorageDescription
+            };
+
             vm.Brands = await brandService.GetAllAsync();
-            vm.Model = mobile.Model;
 
             return View(vm);
         }
