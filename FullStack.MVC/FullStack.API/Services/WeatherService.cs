@@ -1,5 +1,6 @@
 ﻿using FullStack.API.Services.Interfaces;
 using FullStack.Models;
+using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using System;
@@ -12,13 +13,15 @@ namespace FullStack.API.Services
     {
         private readonly HttpClient _httpClient;
         private readonly ICacheService _cacheService;
+        private readonly ILogger<WeatherService> _logger;
 
         private const string CACHE_KEY = "WeatherCache";
 
-        public WeatherService(HttpClient httpClient, ICacheService cacheService)
+        public WeatherService(HttpClient httpClient, ICacheService cacheService, ILogger<WeatherService> logger)
         {
             _httpClient = httpClient;
             _cacheService = cacheService;
+            _logger = logger;
         }
 
         public async Task<WeatherData> GetWeatherDataAsync()
@@ -26,7 +29,8 @@ namespace FullStack.API.Services
             var cacheData = await _cacheService.GetValueAsync(CACHE_KEY);
             if (cacheData != null)
             {
-                var weatherCacheData = JsonConvert.DeserializeObject<WeatherData>(cacheData);
+                _logger.LogInformation("Getting weather data from cache...");
+                var weatherCacheData = JsonConvert.DeserializeObject<WeatherData>(cacheData);        
                 return weatherCacheData;
             }
 
