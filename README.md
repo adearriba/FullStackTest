@@ -95,3 +95,4 @@ Por el corto tiempo, quedaron algunos puntos pendientes deseables:
  - Utilizar MongoDB para el servicio que almacena Marcas y Móviles. Dado que estaba usando MSSQL con Identity, por practicidad y rapidez quise mantener MSSQL en ambos servicios. 
 	 - Al tener BD independientes y utilizar interfaces de repositorios, cambiar uno por otro no es una tarea muy compleja, solamente habría que implementar la interfaz de repositorio y cambiar la conexión e imagen en docker-compose. 
  - Usar alguna librería para FrontEnd como Vue, Angular o React. Aunque las conozco y las he usado en proyectos pequeños, la velocidad para montar todo, además de incorporar Identity hubiera sido más lenta. Por lo tanto, decidí optimizar tiempo utilizando las bondades de ASPNET CORE MVC + Identity.
+ - Separar el servicio de Identity del proyecto MVC y llevarlo a un servicio propio para poder utilizarlo en diferentes Frontends independientes de la tecnología.
