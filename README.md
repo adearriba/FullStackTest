@@ -36,7 +36,7 @@ Adicionalmente hay 2 contenedores corriendo ``mssql/server:2019-latest``:
 
 ### Dashboard WebStatus
 En este dashboard se podrá ver la salud de los servicios corriendo. 
-![enter Dashboard WebStatus](https://raw.githubusercontent.com/adearriba/FullStackTest/main/img/WebStatus_Dashboardpng.png?token=ABFYXW7K2PGLROZSGYKFB23AH5KAO)
+![enter Dashboard WebStatus](https://github.com/adearriba/FullStackTest/blob/main/img/WebStatus_Dashboardpng.png?raw=true)
 
 Cada servicio expone en la ruta ``dirección:puerto/hc`` un json con datos sobre la salud de sí mismo y sus dependencias. Esto se configura en ``startup.cs`` por medio de un método de extensión ubicado en ``Extensions\HealthChecksExtensions.cs`` dentro de cada proyecto.
 
@@ -59,7 +59,7 @@ public static IServiceCollection AddHealthChecks(this IServiceCollection service
 
 ###  Documentación generada para API
 Se ha optado por documentar automáticamente el API utilizando Swagger por las bondades que brinda. Dirigiéndose a http://localhost:5001/swagger/index.html se puede acceder a esta documentación y probar el API.
-![enter image description here](https://raw.githubusercontent.com/adearriba/FullStackTest/main/img/API_Generated_Documentation.png?token=ABFYXW4WVPBSHB5NSMRTLQDAH5L5M)
+![enter image description here](https://github.com/adearriba/FullStackTest/blob/main/img/API_Generated_Documentation.png?raw=true)
 
 En producción, no se abriría un puerto hacia este servicio para que solo sea accesible por los contenedores del grupo y no por alguien externo.
 
@@ -67,7 +67,7 @@ En producción, no se abriría un puerto hacia este servicio para que solo sea a
 Para agilizar en el corto tiempo tareas importante del alcance, como lo son la autenticación y autorización, se optó por usar ASPNET CORE MVC, dada la facilidad de configurar el sistema de usuario/login/roles.
 
 Para acceder al frontend basta con dirigirse a: https://localhost:4432/ 
-![enter image description here](https://raw.githubusercontent.com/adearriba/FullStackTest/main/img/HomePage.png?token=ABFYXW5BK42AGKCLDEN4SKDAH5MR4)
+![enter image description here](https://github.com/adearriba/FullStackTest/blob/main/img/HomePage.png?raw=true)
 
 Para iniciar sesión, se han creado cuentas con los roles necesarios (``FullStack.MVC.Extensions.DbInitializer.cs``) de manera de poder simplificar el uso del proyecto desde el momento de lanzarse:
 
