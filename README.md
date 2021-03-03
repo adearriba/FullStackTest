@@ -1,7 +1,25 @@
+# Índice <!-- omit in toc -->
+- [FullStackTest](#fullstacktest)
+  - [Composición de la solución](#composición-de-la-solución)
+  - [Correr la solución](#correr-la-solución)
+    - [Dashboard WebStatus](#dashboard-webstatus)
+    - [Documentación generada para API](#documentación-generada-para-api)
+    - [Frontend MVC](#frontend-mvc)
+  - [Consideraciones](#consideraciones)
+  - [Mejoras deseables](#mejoras-deseables)
 
 # FullStackTest
-
 Esta solución es una pequeña prueba FullStack montada en contenedores Docker y orquestrada por Docker-Compose. 
+
+En la figura de abajo se pueden apreciar los diferentes componentes y las conexiones. Más abajo se hablará de la composición de la solución.
+
+Los colores de los componentes representan:
+- Naranja: Proyecto ASP.NET CORE
+- Amarillo: Librería de clases embebida
+- Verde: Imágenes cargadas por configuración con docker
+- Negro: Componentes externos
+
+![Mapa de componentes](https://github.com/adearriba/FullStackTest/blob/main/img/ComponentMap.png?raw=true)
 
 ## Composición de la solución
 Dentro la solución se encuentran 4 proyectos .NET:
@@ -11,6 +29,13 @@ Dentro la solución se encuentran 4 proyectos .NET:
 |FullStack.MVC |Encargado del FrontEnd por medio de ASP .NET CORE MVC|
 |FullStack.WebStatus|Dashboard para entender la salud de los servicios antes mencionados|
 |FullStack.Models|Libreria para compartir modelos de datos entre FullStack.API y FullStack.MVC|
+
+Adicionalmente hay 3 contenedores, 2 corriendo ``mssql/server:2019-latest`` y 1 ``redis``:
+|Contenedor|Descripción  |
+|--|--|
+|sqldata-api  |Almacena todos los datos de marcas y móviles|
+|sqldata-mvc  |Contiene los datos requeridos por Identity para manejo de usuarios |
+|redis  |Cache para servicios terceros con restricciones de consultas |
 
 ## Correr la solución
 Para correr la solución se requiere tener Docker instalado. Una vez teniendo Docker instalado, se deben ejecutar los siguientes comandos desde la carpeta donde se encuentra el archivo ``docker-compose.yml``:
@@ -28,15 +53,10 @@ Los servicios se levantarán en las siguientes direcciones y puertos:
 |FullStack.MVC |https://localhost:4432/ |
 |FullStack.API |http://localhost:5001/swagger/index.html |
 
-Adicionalmente hay 2 contenedores corriendo ``mssql/server:2019-latest``:
-|Contenedor|Descripción  |
-|--|--|
-|sqldata-api  |Almacena todos los datos de marcas y móviles|
-|sqldata-mvc  |Contiene los datos requeridos por Identity para manejo de usuarios |
 
 ### Dashboard WebStatus
 En este dashboard se podrá ver la salud de los servicios corriendo. 
-![enter Dashboard WebStatus](https://github.com/adearriba/FullStackTest/blob/main/img/WebStatus_Dashboardpng.png?raw=true)
+![Dashboard WebStatus](https://github.com/adearriba/FullStackTest/blob/main/img/WebStatus_Dashboardpng.png?raw=true)
 
 Cada servicio expone en la ruta ``dirección:puerto/hc`` un json con datos sobre la salud de sí mismo y sus dependencias. Esto se configura en ``startup.cs`` por medio de un método de extensión ubicado en ``Extensions\HealthChecksExtensions.cs`` dentro de cada proyecto.
 
@@ -59,7 +79,7 @@ public static IServiceCollection AddHealthChecks(this IServiceCollection service
 
 ###  Documentación generada para API
 Se ha optado por documentar automáticamente el API utilizando Swagger por las bondades que brinda. Dirigiéndose a http://localhost:5001/swagger/index.html se puede acceder a esta documentación y probar el API.
-![enter image description here](https://github.com/adearriba/FullStackTest/blob/main/img/API_Generated_Documentation.png?raw=true)
+![Swagger](https://github.com/adearriba/FullStackTest/blob/main/img/API_Generated_Documentation.png?raw=true)
 
 En producción, no se abriría un puerto hacia este servicio para que solo sea accesible por los contenedores del grupo y no por alguien externo.
 
@@ -67,7 +87,7 @@ En producción, no se abriría un puerto hacia este servicio para que solo sea a
 Para agilizar en el corto tiempo tareas importante del alcance, como lo son la autenticación y autorización, se optó por usar ASPNET CORE MVC, dada la facilidad de configurar el sistema de usuario/login/roles.
 
 Para acceder al frontend basta con dirigirse a: https://localhost:4432/ 
-![enter image description here](https://github.com/adearriba/FullStackTest/blob/main/img/HomePage.png?raw=true)
+![Página de inicio](https://github.com/adearriba/FullStackTest/blob/main/img/HomePage.png?raw=true)
 
 Para iniciar sesión, se han creado cuentas con los roles necesarios (``FullStack.MVC.Extensions.DbInitializer.cs``) de manera de poder simplificar el uso del proyecto desde el momento de lanzarse:
 
