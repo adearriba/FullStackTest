@@ -1,14 +1,23 @@
 version: '3.4'
 
 services:
-  sqldata:
+  sqldata-api:
     environment:
       - SA_PASSWORD=Pass@word
       - ACCEPT_EULA=Y
     ports:
       - "5433:1433"
     volumes:
-      - fullstack-sqldata:/var/opt/mssql
+      - fullstack-sqldata-api:/var/opt/mssql
+
+  sqldata-mvc:
+    environment:
+      - SA_PASSWORD=Pass@word
+      - ACCEPT_EULA=Y
+    ports:
+      - "5434:1433"
+    volumes:
+      - fullstack-sqldata-mvc:/var/opt/mssql
 
   fullstack.mvc:
     environment:
@@ -16,7 +25,7 @@ services:
       - ASPNETCORE_URLS=https://+443;http://+:80
       - ASPNETCORE_Kestrel__Certificates__Default__Password=password
       - ASPNETCORE_Kestrel__Certificates__Default__Path=/app/docker.pfx
-      - ConnectionString=${FULLSTACK_DB:-Server=sqldata;Database=FullStack.Db;User Id=sa;Password=Pass@word}
+      - ConnectionString=${FULLSTACK_DB:-Server=sqldata-mvc;Database=FullStack.Db;User Id=sa;Password=Pass@word}
       - DBConnectionRetries=5
       - ApiUri=http://fullstack.api:80/api/v1
     ports:
@@ -29,7 +38,7 @@ services:
       - ASPNETCORE_URLS=http://+:80
       - ASPNETCORE_Kestrel__Certificates__Default__Password=password
       - ASPNETCORE_Kestrel__Certificates__Default__Path=/app/docker.pfx
-      - ConnectionString=${FULLSTACK_DB:-Server=sqldata;Database=FullStack.Db;User Id=sa;Password=Pass@word}
+      - ConnectionString=${FULLSTACK_DB:-Server=sqldata-api;Database=FullStack.Db;User Id=sa;Password=Pass@word}
       - DBConnectionRetries=5
       - WeatherCity=Madrid
       - WeatherApiKey=cefcfdc0f8633367e91eb557e578ca08
@@ -51,7 +60,7 @@ services:
       - "5003:80"
 
 volumes:
-  fullstack-sqldata:
+  fullstack-sqldata-api:
     external: false
-
-
+  fullstack-sqldata-mvc:
+    external: false

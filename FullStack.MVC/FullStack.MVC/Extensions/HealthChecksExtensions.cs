@@ -16,7 +16,7 @@ namespace FullStack.MVC.Extensions
                 .AddSqlServer(
                     configuration["ConnectionString"],
                     name: "FullStackDb-check",
-                    tags: new string[] { "fullstackdb" });
+                    tags: new string[] { "fullstackdb-mvc" });
 
             return services;
         }
