@@ -48,7 +48,7 @@ namespace FullStack.MVC.Controllers
                 var brand = await _brandService.AddAsync(brandInput);
                 return RedirectToAction(nameof(Index));
             }
-            catch(Exception ex)
+            catch
             {
                 return View();
             }
