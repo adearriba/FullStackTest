@@ -6,7 +6,7 @@
 
 @if(Model.Brands.Count > 0)
 {
-<h1>Crear un nuevo modelo móvil</h1>
+<h1 class="display-4">Crear un nuevo modelo móvil</h1>
 <hr />
 <div class="row">
     <div class="col-md-4">
@@ -24,6 +24,31 @@
                     <option>Por favor selecciona una</option>
                 </select>
                 <span asp-validation-for="BrandId" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Description" class="control-label"></label>
+                <textarea asp-for="Description" class="form-control"></textarea>
+                <span asp-validation-for="Description" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="CamaraDescripcion" class="control-label"></label>
+                <input asp-for="CamaraDescripcion" class="form-control" />
+                <span asp-validation-for="CamaraDescripcion" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="BateryDescription" class="control-label"></label>
+                <input asp-for="BateryDescription" class="form-control" />
+                <span asp-validation-for="BateryDescription" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="StorageDescription" class="control-label"></label>
+                <input asp-for="StorageDescription" class="form-control" />
+                <span asp-validation-for="StorageDescription" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="ScreenDescription" class="control-label"></label>
+                <input asp-for="ScreenDescription" class="form-control" />
+                <span asp-validation-for="ScreenDescription" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <input type="submit" value="Guardar" class="btn btn-primary" />

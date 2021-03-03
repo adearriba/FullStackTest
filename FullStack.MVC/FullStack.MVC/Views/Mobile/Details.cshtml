@@ -1,0 +1,47 @@
+﻿@model FullStack.Models.Mobile
+
+@{
+    ViewData["Title"] = "Details";
+}
+
+<h1 class="display-3">@Model.Model</h1>
+
+<div class="container">
+    <div class="row">
+        <p>@Model.Description</p>
+    </div>
+</div>
+
+<div class="container mt-3">
+    <div class="row">
+        <div class="col">
+            <div class="d-flex justify-content-center">
+                <i class="fas fa-camera fa-3x"></i>
+            </div>
+            <p class="fs-sm text-center mt-2">@Model.CamaraDescripcion</p>
+        </div>
+        <div class="col">
+            <div class="d-flex justify-content-center">
+                <i class="fas fa-mobile-alt fa-3x"></i>
+            </div>
+            <p class="fs-sm text-center mt-2">@Model.ScreenDescription</p>
+        </div>
+        <div class="col">
+            <div class="d-flex justify-content-center">
+                <i class="fas fa-database fa-3x"></i>
+            </div>
+            <p class="fs-sm text-center mt-2">@Model.StorageDescription</p>
+        </div>
+        <div class="col">
+            <div class="d-flex justify-content-center">
+                <i class="fas fa-battery-three-quarters fa-3x"></i>
+            </div>
+            <p class="fs-sm text-center mt-2">@Model.BateryDescription</p>
+        </div>
+    </div>
+</div>
+
+<div>
+    @Html.ActionLink("Editar", "Edit", new { @Model.Id }) |
+    <a asp-action="Index">Regresar</a>
+</div>
