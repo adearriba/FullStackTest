@@ -11,12 +11,16 @@ namespace FullStack.API.Extensions
             var hcBuilder = services.AddHealthChecks();
 
             hcBuilder.AddCheck("self", () => HealthCheckResult.Healthy());
-            
+
             hcBuilder
                 .AddSqlServer(
                     configuration["ConnectionString"],
                     name: "FullStackDb-check",
-                    tags: new string[] { "fullstackdb-api" });
+                    tags: new string[] { "fullstackdb-api" })
+                .AddRedis(
+                    configuration["RedisConnectionsString"],
+                    name: "RedisCache-check",
+                    tags: new string[] { "fullstackcache-api" });
 
             return services;
         }
