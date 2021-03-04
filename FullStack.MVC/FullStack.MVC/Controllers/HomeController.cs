@@ -20,8 +20,16 @@ namespace FullStack.MVC.Controllers
 
         public async Task<IActionResult> Index()
         {
-            var data = await _weatherService.GetWeatherDataAsync();
-            return View(data);
+            try
+            {
+                var data = await _weatherService.GetWeatherDataAsync();
+                return View(data);
+            }
+            catch
+            {
+                ViewData["error"] = "Hubo un error. Inténtalo más tarde";
+                return View(null);
+            }
         }
 
         public IActionResult Privacy()

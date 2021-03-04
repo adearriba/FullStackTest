@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace FullStack.MVC.Controllers
@@ -21,15 +22,32 @@ namespace FullStack.MVC.Controllers
         // GET: BrandsController
         public async Task<ActionResult> Index()
         {
-            var brands = await _brandService.GetAllAsync();
-            return View(brands);
+            try
+            {
+                var brands = await _brandService.GetAllAsync();
+                return View(brands);
+            }
+            catch
+            {
+                ViewData["error"] = "Hubo un error. Inténtalo más tarde";
+                List<Brand> brands = new List<Brand>();
+                return View(brands);
+            }
         }
 
         // GET: BrandsController/Details/5
         public async Task<ActionResult> Details(int id)
         {
-            var brand = await _brandService.GetByIdAsync(id);
-            return View(brand);
+            try
+            {
+                var brand = await _brandService.GetByIdAsync(id);
+                return View(brand);
+            }
+            catch
+            {
+                ViewData["error"] = "Hubo un error. Inténtalo más tarde";
+                return RedirectToAction(nameof(Index));
+            }
         }
 
         // GET: BrandsController/Create
@@ -57,8 +75,16 @@ namespace FullStack.MVC.Controllers
         // GET: BrandsController/Edit/5
         public async Task<ActionResult> Edit(int id)
         {
-            var brand = await _brandService.GetByIdAsync(id);
-            return View(brand);
+            try
+            {
+                var brand = await _brandService.GetByIdAsync(id);
+                return View(brand);
+            }
+            catch
+            {
+                ViewData["error"] = "Hubo un error. Inténtalo más tarde";
+                return RedirectToAction(nameof(Index));
+            }
         }
 
         // POST: BrandsController/Edit/5
@@ -81,8 +107,16 @@ namespace FullStack.MVC.Controllers
         // GET: BrandsController/Delete/5
         public async Task<ActionResult> Delete(int id)
         {
-            var brand = await _brandService.GetByIdAsync(id);
-            return View(brand);
+            try
+            {
+                var brand = await _brandService.GetByIdAsync(id);
+                return View(brand);
+            }
+            catch
+            {
+                ViewData["error"] = "Hubo un error. Inténtalo más tarde";
+                return RedirectToAction(nameof(Index));
+            }
         }
 
         // POST: BrandsController/Delete/5

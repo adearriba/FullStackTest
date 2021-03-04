@@ -47,7 +47,7 @@ namespace FullStack.MVC.Services
         public async Task RemoveAsync(int id)
         {
             var response = await _httpClient.DeleteAsync($"{_apiUri}/{id}");
-            var responseJson = await response.Content.ReadAsStringAsync();
+            await response.Content.ReadAsStringAsync();
         }
 
         public async Task UpdateAsync(T item)
@@ -55,7 +55,7 @@ namespace FullStack.MVC.Services
             var json = JsonConvert.SerializeObject(item);
             var content = new StringContent(json, Encoding.UTF8, "application/json");
             var response = await _httpClient.PutAsync($"{_apiUri}", content);
-            var responseJson = await response.Content.ReadAsStringAsync();
+            await response.Content.ReadAsStringAsync();
         }
     }
 }

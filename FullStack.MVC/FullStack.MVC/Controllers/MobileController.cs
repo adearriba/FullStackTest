@@ -4,6 +4,7 @@ using FullStack.MVC.Services.Interfaces;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace FullStack.MVC.Controllers
@@ -21,29 +22,55 @@ namespace FullStack.MVC.Controllers
         // GET: MobileController
         public async Task<ActionResult> Index()
         {
-            var mobiles = await _mobileService.GetAllAsync();
-            return View(mobiles);
+            try
+            {
+                var mobiles = await _mobileService.GetAllAsync();
+                return View(mobiles);
+            }
+            catch
+            {
+                ViewData["error"] = "Hubo un error. Inténtalo más tarde";
+                List<Mobile> mobiles = new List<Mobile>();
+                return View(mobiles);
+            }
         }
 
         // GET: MobileController/Details/5
         public async Task<ActionResult> Details(int id)
         {
-            var mobile = await _mobileService.GetByIdAsync(id);
-            return View(mobile);
+            try
+            {
+                var mobile = await _mobileService.GetByIdAsync(id);
+                return View(mobile);
+            }
+            catch
+            {
+                ViewData["error"] = "Hubo un error. Inténtalo más tarde";
+                return RedirectToAction(nameof(Index));
+            }
         }
 
         // GET: MobileController/Create
         public async Task<ActionResult> Create([FromServices] IBrandService brandService)
         {
-            CreateMobileViewModel vm = new CreateMobileViewModel();
-            vm.Brands = await brandService.GetAllAsync();
-
-            if(vm.Brands.Count == 0)
+            try
             {
-                ViewData["error"] = "No existe ninguna marca creada todavía. Por favor crea una marca primero.";
+                CreateMobileViewModel vm = new CreateMobileViewModel();
+                vm.Brands = await brandService.GetAllAsync();
+
+                if(vm.Brands.Count == 0)
+                {
+                    ViewData["error"] = "No existe ninguna marca creada todavía. Por favor crea una marca primero.";
+                }
+
+                return View(vm);
+            }
+            catch
+            {
+                ViewData["error"] = "Hubo un error. Inténtalo más tarde";
+                return RedirectToAction(nameof(Index));
             }
 
-            return View(vm);
         }
 
         // POST: MobileController/Create
@@ -58,6 +85,7 @@ namespace FullStack.MVC.Controllers
             }
             catch
             {
+                ViewData["error"] = "Hubo un error. Inténtalo más tarde";
                 return View();
             }
         }
@@ -65,22 +93,30 @@ namespace FullStack.MVC.Controllers
         // GET: MobileController/Edit/5
         public async Task<ActionResult> Edit([FromServices] IBrandService brandService, int id)
         {
-            var mobile = await _mobileService.GetByIdAsync(id);
-
-            CreateMobileViewModel vm = new CreateMobileViewModel
+            try
             {
-                Model = mobile.Model,
-                BrandId = mobile.BrandId,
-                Description = mobile.Description,
-                BateryDescription = mobile.BateryDescription,
-                CamaraDescripcion = mobile.CamaraDescripcion,
-                ScreenDescription = mobile.ScreenDescription,
-                StorageDescription = mobile.StorageDescription
-            };
+                var mobile = await _mobileService.GetByIdAsync(id);
 
-            vm.Brands = await brandService.GetAllAsync();
+                CreateMobileViewModel vm = new CreateMobileViewModel
+                {
+                    Model = mobile.Model,
+                    BrandId = mobile.BrandId,
+                    Description = mobile.Description,
+                    BateryDescription = mobile.BateryDescription,
+                    CamaraDescripcion = mobile.CamaraDescripcion,
+                    ScreenDescription = mobile.ScreenDescription,
+                    StorageDescription = mobile.StorageDescription
+                };
 
-            return View(vm);
+                vm.Brands = await brandService.GetAllAsync();
+
+                return View(vm);
+            }
+            catch
+            {
+                ViewData["error"] = "Hubo un error. Inténtalo más tarde";
+                return RedirectToAction(nameof(Index));
+            }
         }
 
         // POST: MobileController/Edit/5
@@ -104,8 +140,16 @@ namespace FullStack.MVC.Controllers
         // GET: MobileController/Delete/5
         public async Task<ActionResult> Delete(int id)
         {
-            var mobile = await _mobileService.GetByIdAsync(id);
-            return View(mobile);
+            try
+            {
+                var mobile = await _mobileService.GetByIdAsync(id);
+                return View(mobile);
+            }
+            catch
+            {
+                ViewData["error"] = "Hubo un error. Inténtalo más tarde";
+                return RedirectToAction(nameof(Index));
+            }
         }
 
         // POST: MobileController/Delete/5
