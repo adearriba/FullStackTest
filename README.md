@@ -122,3 +122,4 @@ Por el corto tiempo, quedaron algunos puntos pendientes deseables:
 
  - Usar alguna librería para FrontEnd como Vue, Angular o React. Aunque las conozco y las he usado en proyectos pequeños, la velocidad para montar todo, además de incorporar Identity hubiera sido más lenta. Por lo tanto, decidí optimizar tiempo utilizando las bondades de ASPNET CORE MVC + Identity.
  - Separar el servicio de Identity del proyecto MVC y llevarlo a un servicio propio para poder utilizarlo en diferentes Frontends independientes de la tecnología.
+ - Separar las responsabilidades de los modelos en diferentes DTOs. Por ejemplo, el modelo de datos que se recupera en la BD puede contener toda la información de una entidad o información segmentada entre diferentes entidades (Maestro-Detalle) y un DTO de un servicio puede exponer menos información que una entidad de BD (no requiere todos los campos) o agrupar información de varias entidades de DB en una sola entidad. (Maestro-Detalle)
