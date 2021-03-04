@@ -26,7 +26,7 @@ Dentro la solución se encuentran 4 proyectos .NET:
 |Proyecto|Descripción  |
 |--|--|
 |FullStack.API  |Contiene las APIs y conexión a DB utilizando ASP .NET CORE. |
-|FullStack.MVC |Encargado del FrontEnd por medio de ASP .NET CORE MVC|
+|FullStack.MVC |Encargado del FrontEnd y Identity por medio de ASP .NET CORE MVC|
 |FullStack.WebStatus|Dashboard para entender la salud de los servicios antes mencionados|
 |FullStack.Models|Libreria para compartir modelos de datos entre FullStack.API y FullStack.MVC|
 
@@ -39,9 +39,11 @@ Adicionalmente hay 3 contenedores, 2 corriendo ``mssql/server:2019-latest`` y 1 
 
 Se eligieron instancias de SQL por la naturaleza de las entidades que están relacionadas 1-Muchos. 
 
-Esto significa que desde una marca puedo consultar todos los móviles y de un móvil puedo consultar su marca. Las soluciones no relacionales para estos problemas, sobretodo en un proyecto tan pequeño, no conllevan un beneficio.
+Esto significa que desde una marca puedo consultar todos los móviles y de un móvil puedo consultar su marca y, al mismo tiempo, una modificación en una entidad se refleja al consultar en la otra. Las soluciones no relacionales para estos problemas, sobretodo en un proyecto tan pequeño, no conllevan un beneficio y requieren de mayor trabajo para consultas y modificación de datos relacionales que preserven la consistencia.
 
-En un problema diferente donde la estructura puda vivir en documentos completos, fáciles de consultar, las BD no-SQL serían la mejor opción. Por ejemplo un carritos de compras o una libreta de direcciones.
+En un problema diferente donde la estructura pueda vivir en documentos completos, fáciles de consultar, las BD no-SQL serían la mejor opción. Por ejemplo un carrito de compras o una libreta de direcciones. Las técnica de embeber documentos dentro de otros ayuda al performance de estas soluciones.
+
+Por otro lado, la técnica de referencias entre documentos, muy similar a las relaciones en SQL, funciona bien si las colecciones están bien indexadas, pero conllevan a que la aplicación requiera lógica adicional, que no viene de dada por defecto, para mantener estás relaciones.
 
 ## Correr la solución
 Para correr la solución se requiere tener Docker instalado. Una vez teniendo Docker instalado, se deben ejecutar los siguientes comandos desde la carpeta donde se encuentra el archivo ``docker-compose.yml``:
