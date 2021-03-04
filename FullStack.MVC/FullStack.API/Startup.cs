@@ -48,8 +48,7 @@ namespace FullStack.API
             services.AddTransient<IMobileRepository, MobileRepository>();
             services.AddHttpClient<IWeatherService, WeatherService>();
 
-            services.AddSingleton<IConnectionMultiplexer>(sp =>
-                ConnectionMultiplexer.Connect(Configuration["RedisConnectionsString"]));
+            services.AddSingleton<IRedisDbConnectionService, RedisDbConnectionService>();
             services.AddSingleton<ICacheService, RedisCacheService>();
 
             services.AddControllers().AddNewtonsoftJson(options =>

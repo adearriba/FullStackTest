@@ -9,14 +9,14 @@ namespace FullStack.API.Services
 {
     public class RedisCacheService : ICacheService
     {
-        private readonly IConnectionMultiplexer _connectionMultiplexer;
+        private readonly IRedisDbConnectionService _redisConnection;
         private readonly ILogger<RedisCacheService> _logger;
 
         public RedisCacheService(
-            IConnectionMultiplexer connectionMultiplexer, 
+            IRedisDbConnectionService redisConnection, 
             ILogger<RedisCacheService> logger)
         {
-            _connectionMultiplexer = connectionMultiplexer;
+            _redisConnection = redisConnection;
             _logger = logger;
         }
 
@@ -24,7 +24,7 @@ namespace FullStack.API.Services
         {
             try
             {
-                var db = _connectionMultiplexer.GetDatabase();
+                var db = _redisConnection.GetDatabase();
                 return await db.StringGetAsync(key);
             }
             catch (RedisConnectionException redisEx)
@@ -38,7 +38,7 @@ namespace FullStack.API.Services
         {
             try
             {
-                var db = _connectionMultiplexer.GetDatabase();
+                var db = _redisConnection.GetDatabase();
                 await db.StringSetAsync(key, value, TimeSpan.FromSeconds(60));
             }
             catch(RedisConnectionException redisEx)
