@@ -20,7 +20,8 @@ namespace FullStack.API.Extensions
                 .AddRedis(
                     configuration["RedisConnectionsString"],
                     name: "RedisCache-check",
-                    tags: new string[] { "fullstackcache-api" });
+                    tags: new string[] { "fullstackcache-api" },
+                    failureStatus: HealthStatus.Degraded);
 
             return services;
         }
