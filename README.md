@@ -54,6 +54,10 @@ Para compilar la solución completa:
 Para levantar la solución:
 ``docker-compose up``
 
+![Docker Linux Containers](https://github.com/adearriba/FullStackTest/blob/main/img/Docker_Linux_Containers.png?raw=true)
+
+Punto importante: En Windows se deben activar contenedores de Linux para correr la solución.
+
 Los servicios se levantarán en las siguientes direcciones y puertos:
 |Proyecto|Dirección:Puerto  |
 |--|--|
